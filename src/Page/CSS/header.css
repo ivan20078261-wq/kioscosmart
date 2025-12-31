@@ -1,0 +1,145 @@
+/* Header.css */
+
+/* ======================================= */
+/* Header */
+/* ======================================= */
+
+/*
+  Nota: Las variables de color y tipografía
+  (como --color-text-main, --color-primary, etc.)
+  se asume que están definidas en tu archivo
+  principal (dashboard.css o index.css)
+*/
+
+.dashboard-header {
+    /* Fondo transparente o un color muy sutil */
+    background-color: var(--color-card-bg, #ffffff); 
+    padding: 1rem 2rem; /* Más espacio en el header para que respire */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-border, #e6edf3); /* Separador visual */
+    position: sticky; /* Se mantiene arriba al hacer scroll en el main */
+    top: 0;
+    z-index: 500;
+    height: auto;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title {
+    font-size: 1.75rem; /* Título un poco más grande */
+    font-weight: 800;
+    color: var(--color-text-main, #0f172a);
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary, #6b7280);
+    margin: 0.25rem 0 0 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Más espacio entre elementos */
+}
+
+/* --- Botones (Notificaciones, etc.) --- */
+.header-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--color-text-secondary, #6b7280);
+    padding: 0.6rem;
+    border-radius: var(--radius-md, 8px);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.header-btn:hover {
+    background-color: var(--color-bg-light, #f8fafc);
+    color: var(--color-text-main, #0f172a);
+}
+
+/* --- Perfil de Usuario --- */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md, 8px);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.user-profile:hover {
+    background-color: var(--color-bg-light, #f8fafc);
+}
+
+.user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    /* Degradado sutil como placeholder */
+    background: linear-gradient(135deg, var(--color-primary, #2563eb), var(--color-primary-hover, #1e40af));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-main, #0f172a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px; /* Limita el ancho del nombre */
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary, #6b7280);
+}
+
+
+/* ======================================= */
+/* Responsive Design (Ajustes) */
+/* ======================================= */
+@media (max-width: 768px) {
+    .dashboard-header {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        /* En dispositivos pequeños, el encabezado no es sticky para no ocupar mucho espacio */
+        position: relative; 
+    }
+
+    .header-right {
+        /* Mueve los botones y el perfil debajo del título */
+        width: 100%;
+        justify-content: flex-end;
+        gap: 1rem;
+    }
+    
+    /* Oculta la información de texto del usuario en móvil para ahorrar espacio */
+    .user-info {
+        display: none;
+    }
+}
