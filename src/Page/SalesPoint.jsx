@@ -504,7 +504,7 @@ export default function SalesPoint() {
                     }}
                   />
                   <button
-                    className="btn btn-primary btn-hotkey"
+                    className="btn-primary btn-hotkey"
                     onClick={handleManualAdd}
                     disabled={isManualSearching}
                   >
@@ -586,7 +586,7 @@ export default function SalesPoint() {
               <span className="hotkey-letter">C</span>ancelar
             </button>
             <button
-              className="btn btn-success btn-large btn-hotkey"
+              className="btn-finalizar btn"
               onClick={handleFinalizeSale}
               disabled={cart.length === 0}
               title="Atajo: F"

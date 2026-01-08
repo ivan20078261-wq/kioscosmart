@@ -4,18 +4,22 @@
 :root {
   --primary: #16a34a;
   --primary-dark: #15803d;
-  --danger: #dc2626;
+  --danger: #FF2E2E;
 
   --bg-main: #f3f4f6;
   --bg-card: #ffffff;
   --bg-soft: #e5e7eb;
-
+--final: #4DC43B;
   --text-main: #111827;
   --text-muted: #6b7280;
 
   --border: #d1d5db;
 
   --radius: 14px;
+  --color-primary-start: #4CAF50; /* Verde brillante (inicio del gradiente) */
+    --color-primary-end: #388E3C;   /* Verde oscuro (fin del gradiente) */
+    --color-text-light: #ffffff;    /* Texto blanco */
+    --color-shadow: rgba(0, 0, 0, 0.15); /* Sombra suave */
 }
 
 /* =========================
@@ -144,43 +148,80 @@
 /* =========================
    BOTONES (GRANDES)
 ========================= */
-.btn {
-  border: none;
-  border-radius: var(--radius);
-  padding: 14px 18px;
-  font-weight: 800;
-  font-size: 16px;
-  cursor: pointer;
+/* Colores clave del botón de ACCIÓN PRINCIPAL (Verde) */
+:root {
+    --color-primary-start: #4CAF50; /* Verde brillante (inicio del gradiente) */
+    --color-primary-end: #388E3C;   /* Verde oscuro (fin del gradiente) */
+    --color-text-light: #ffffff;    /* Texto blanco */
+    --color-shadow: rgba(0, 0, 0, 0.15); /* Sombra suave */
 }
 
-.btn-primary,
-.btn-success {
-  background: var(--primary);
-  color: white;
+/* 1. ESTILO BASE DEL BOTÓN (btn-primary) */
+.btn-primary {
+    /* Diseño y tamaño */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border: none;
+    border-radius: 8px; /* Bordes redondeados consistentes */
+    cursor: pointer;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    box-sizing: border-box; /* Asegura que el padding no cambie el ancho total */
+
+    /* Tipografía */
+    color: var(--color-text-light);
+    font-weight: 600; /* Seminegrita */
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    /* Fondo: Gradiente Verde */
+    background-color: #4DC43B; /* Fallback */
+    background-image: linear-gradient(180deg, var(--color-primary-start) 0%, var(--color-primary-end) 100%);
+
+    /* Efectos de Sombra y Transición */
+    box-shadow: 0 4px 6px var(--color-shadow);
+    transition: all 0.2s ease-in-out;
 }
 
-.btn-primary:hover,
-.btn-success:hover {
-  background: var(--primary-dark);
+/* 2. ESTADOS INTERACTIVOS (HOVER & ACTIVE) */
+
+.btn-primary:hover {
+    /* Ligeramente más oscuro al pasar el ratón */
+    background-image: linear-gradient(180deg, var(--color-primary-end) 0%, var(--color-primary-start) 100%);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
-.btn-danger {
-  background: var(--danger);
-  color: white;
+.btn-primary:active {
+    /* Efecto de 'presión' */
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.btn-large {
-  font-size: 22px;
-  padding: 18px 26px;
+/* 3. ESTADO DESHABILITADO (DISABLED) */
+
+.btn-primary:disabled,
+.btn-primary[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+/* 4. ESTILO DE LA TECLA DE ACCESO RÁPIDO (HOTKEY) */
+
+.btn-primary .hotkey-letter {
+    /* La letra de la hotkey debe destacar ligeramente */
+    font-weight: 900; /* Más negrita */
+    margin-right: 3px;
+    text-decoration: underline; /* Opcional: Subraya la letra para enfatizar */
 }
 
-.hotkey-letter {
-  text-decoration: underline;
+/* 5. ÍCONO (Si lo usas) */
+/* Si añades un ícono (como el '+'), agrégale un margen para separarlo del texto. */
+.btn-primary .icon {
+    margin-right: 8px;
 }
 
 /* =========================
@@ -284,12 +325,19 @@
    FOOTER
 ========================= */
 .sales-footer {
-  margin-top: 28px;
+  margin-top: 30px;
   display: flex;
   justify-content: space-between;
   gap: 28px;
 }
+.btn-danger{
+  height:70px;
+  background-color: var(--danger);
+}
+.btn-finalizar{
 
+  background-color: #4DC43B;
+}
 /* =========================
    RESPONSIVE
 ========================= */

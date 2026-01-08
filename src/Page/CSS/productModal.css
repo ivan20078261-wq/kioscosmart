@@ -1,126 +1,95 @@
-/* Product modal refinements */
+/* ================================ */
+/* 1. Overlay y Contenedor Principal */
+/* ================================ */
+
+/* Fondo oscuro que cubre toda la pantalla */
 .modal-overlay {
-  animation: modal-fade 180ms ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Oscuro con transparencia */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    backdrop-filter: blur(2px); /* Un pequeño desenfoque para estilo */
 }
+.form-row{
+  padding: 5px;
 
-@keyframes modal-fade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
 }
-
+/* Contenedor del modal */
 .creation-form-mock {
-  padding: 1.25rem 1.5rem;
-  border-radius: 12px;
-  min-width: 360px;
-  max-width: 720px;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 12px; /* Bordes redondeados suaves */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Sombra elegante */
+    width: 90%;
+    max-width: 500px; /* Ancho máximo para hacerlo responsivo */
+    max-height: 80vh; /* Altura máxima para evitar desbordamiento */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease-out; /* Animación de entrada */
 }
+
+/* Animación simple para que el modal aparezca suavemente */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ================================ */
+/* 2. Encabezado del Modal */
+/* ================================ */
 
 .modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee; /* Separador sutil */
+    padding-bottom: 15px;
+    margin-bottom: 20px; /* Espacio antes del contenido (formulario) */
 }
 
 .modal-header h3 {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text);
+    margin: 0;
+    font-size: 1.5em; /* Tamaño de título */
+    color: #333;
+    font-weight: 600; /* Fuente semi-negrita */
 }
+
+/* ================================ */
+/* 3. Botón de Cerrar */
+/* ================================ */
 
 .modal-close {
-  background: transparent;
-  border: 0;
-  padding: 0.35rem;
-  border-radius: 8px;
-  cursor: pointer;
-  color: var(--muted);
-}
-.modal-close:hover { background: rgba(15,23,42,0.04); color: var(--text); }
-
-.creation-form-mock .form-actions { margin-top: 1rem; display: flex; gap: 0.6rem; justify-content: flex-end; }
-
-/* Slightly stronger primary button for modal context */
-.creation-form-mock .btn.btn-primary { min-width: 110px; }
-.creation-form-mock .btn.btn-secondary { background: transparent; border: 1px solid rgba(15,23,42,0.06); color: var(--text); }
-
-/* Make file inputs and previews friendly in modal */
-.creation-form-mock .file-preview { display: flex; gap: 0.6rem; align-items: center; }
-.creation-form-mock .file-preview img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(15,23,42,0.04); }
-
-@media (max-width: 520px) {
-  .creation-form-mock { width: calc(100% - 28px); margin: 0 14px; }
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #999; /* Color gris suave */
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    padding: 5px;
 }
 
-/* Product form - barcode tweaks */
-.creation-form-mock .product-form .barcode-row { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.75rem; }
-.creation-form-mock .product-form .barcode-row input {
-  padding: 0.64rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid rgba(15,23,42,0.06);
-  box-shadow: inset 0 1px 2px rgba(15,23,42,0.02);
-  font-size: 0.98rem;
-}
-.creation-form-mock .product-form .barcode-row input:focus { outline: none; border-color: rgba(37,99,235,0.9); box-shadow: 0 10px 30px rgba(37,99,235,0.06); }
-
-/* tighten form actions spacing for modal */
-.creation-form-mock .product-form .form-actions { display: flex; justify-content: flex-end; gap: 0.6rem; }
-
-/* Improved inputs: unified, cleaner, subtle depth */
-.creation-form-mock .product-form label {
-  font-weight: 600;
-  color: var(--muted);
-  font-size: 0.82rem;
-  letter-spacing: 0.2px;
+.modal-close:hover {
+    color: #e74c3c; /* Color rojo sutil al pasar el ratón */
+    transform: rotate(90deg); /* Pequeño efecto de rotación */
 }
 
-.creation-form-mock .product-form input,
-.creation-form-mock .product-form textarea,
-.creation-form-mock .product-form select {
-  width: 100%;
-  padding: 0.72rem 0.9rem;
-  border-radius: 10px;
-  border: 1px solid rgba(15,23,42,0.08);
-  background: linear-gradient(180deg,#ffffff,#fbfdff);
-  box-shadow: 0 6px 18px rgba(2,6,23,0.03) inset, 0 1px 0 rgba(255,255,255,0.6);
-  transition: border-color 140ms ease, box-shadow 160ms ease, transform 90ms ease;
-  font-size: 0.97rem;
-  color: var(--text);
+.modal-close:disabled {
+    cursor: not-allowed;
+    color: #ccc;
 }
 
-.creation-form-mock .product-form input::placeholder,
-.creation-form-mock .product-form textarea::placeholder {
-  color: rgba(15,23,42,0.32);
+/* ================================ */
+/* 4. Estilos Adicionales (Opcional) */
+/* ================================ */
+
+/* Si tienes un área de contenido (donde iría ProductForm) */
+.modal-content {
+    overflow-y: auto; /* Permite desplazamiento si el formulario es largo */
+    padding-right: 10px; /* Para que la barra de desplazamiento no pegue al borde */
 }
-
-.creation-form-mock .product-form input:focus,
-.creation-form-mock .product-form textarea:focus,
-.creation-form-mock .product-form select:focus {
-  outline: none;
-  border-color: rgba(37,99,235,0.95);
-  box-shadow: 0 10px 30px rgba(37,99,235,0.08);
-  transform: translateY(-1px);
-}
-
-/* Remove native number input spinners for cleaner appearance */
-.creation-form-mock .product-form input[type=number]::-webkit-outer-spin-button,
-.creation-form-mock .product-form input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Make textarea feel like an expanded input */
-.creation-form-mock .product-form textarea { min-height: 110px; padding-top: 0.7rem; }
-
-/* Small screens: slightly smaller inputs */
-@media (max-width: 520px) {
-  .creation-form-mock .product-form input,
-  .creation-form-mock .product-form textarea,
-  .creation-form-mock .product-form select {
-    padding: 0.6rem 0.75rem;
-    font-size: 0.95rem;
-  }
-}
-

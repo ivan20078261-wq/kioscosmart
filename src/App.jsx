@@ -7,6 +7,7 @@ import Productos from './Page/Productos';
 import ProductCreate from './Page/ProductCreate';
 import ProductEdit from './Page/ProductEdit';
 import SalesPoint from './Page/SalesPoint';
+import Inventario from './Page/Inventario';
 const App = () => {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/productos/create" element={<ProductCreate />} />
         <Route path="/productos/:id/edit" element={<ProductEdit />} />
         <Route path="/ventas" element={<SalesPoint />} />
+        <Route path="/inventario" element={<Inventario />} />
         {/* Puedes añadir más rutas aquí, como /products, /sales, etc. */}
       </Routes>
     </BrowserRouter>

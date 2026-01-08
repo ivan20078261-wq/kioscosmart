@@ -16,35 +16,35 @@ const Login = () => {
     setLoading(true);
 
     try {
-        const authData = await pb.collection('users').authWithPassword(
-            email,
-            password,
-        );
-        
-        // Si la autenticación es exitosa, PocketBase guarda automáticamente el token.
-        console.log('Usuario logeado:', authData.record);
-        
-        // Redirección exitosa
-        navigate('/dashboard'); 
+      const authData = await pb.collection('users').authWithPassword(
+        email,
+        password,
+      );
+
+      // Si la autenticación es exitosa, PocketBase guarda automáticamente el token.
+      console.log('Usuario logeado:', authData.record);
+
+      // Redirección exitosa
+      navigate('/dashboard');
 
     } catch (error) {
-        // PocketBase lanza errores si las credenciales son incorrectas
-        console.error('Error de autenticación:', error);
-        setError('Credenciales inválidas. Intenta de nuevo.');
+      // PocketBase lanza errores si las credenciales son incorrectas
+      console.error('Error de autenticación:', error);
+      setError('Credenciales inválidas. Intenta de nuevo.');
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-page">
       <div className="login-card">
-        
+
         {/* Encabezado y Logo */}
         <div className="header">
-        
+
           <h2 className="title">
-            Bienvenido a KioskoFlow
+            Bienvenido a KioskoSmart
           </h2>
           <p className="subtitle">
             Accede a tu Panel de Gestión
@@ -52,7 +52,7 @@ const Login = () => {
         </div>
 
         <form className="form-group-container" onSubmit={handleSubmit}>
-          
+
           {/* Campo Email/Usuario */}
           <InputField label="Email o Usuario" id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading} />
 
@@ -99,23 +99,23 @@ const Login = () => {
 
 // Componente auxiliar para inputs
 const InputField = ({ label, id, type, value, onChange, disabled }) => (
-    <div className="form-group">
-      <label htmlFor={id} className="input-label">
-        {label}
-      </label>
-      <div className="input-wrap">
-        <input
-          id={id}
-          name={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          required
-          className="input-field"
-          disabled={disabled}
-        />
-      </div>
+  <div className="form-group">
+    <label htmlFor={id} className="input-label">
+      {label}
+    </label>
+    <div className="input-wrap">
+      <input
+        id={id}
+        name={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        required
+        className="input-field"
+        disabled={disabled}
+      />
     </div>
+  </div>
 );
 
 export default Login;

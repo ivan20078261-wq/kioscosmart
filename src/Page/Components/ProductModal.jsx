@@ -1,64 +1,102 @@
 import React, { useState } from 'react';
-import ProductForm from './ProductForm'; // Asegúrate de que esta ruta sea correcta
-import pb from '../../services/database'; // Asegúrate de que esta ruta sea correcta
+import { createPortal } from 'react-dom';
+import ProductForm from './ProductForm';
+import pb from '../../services/database';
 import '../CSS/productModal.css';
 
-export default function ProductModal({ mode = 'create', product = null, onClose, onSaved }) {
+export default function ProductModal({
+  mode = 'create',
+  product = null,
+  onClose,
+  onSaved,
+}) {
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
 
-  const handleSubmit = async (payload, isFormData) => {
+  // ProductModal.jsx
+
+  // ... (imports y estado) ...
+
+  const handleSubmit = async (formData) => {
     setSaving(true);
     setError(null);
-    console.log("PAYLOAD ENVIADO:", payload); // <-- NUEVA LÍNEA CLAVE
+
     try {
       let result;
-      // La lógica del isFormData está duplicada porque el payload ya está formateado.
-      // Simplificamos la llamada a la API de PocketBase:
+
+      // 🚀 PASO 1: CONSTRUIR EL PAYLOAD Y CONVERTIR TIPOS
+      const payload = {
+        // Asumiendo que PocketBase usa 'nombre', 'precio', 'stock'
+        nombre: formData.name || formData.nombre || '',
+
+        // CONVERSIÓN VITAL: Convertir las cadenas de texto a números
+        precio: Number(formData.price || formData.precio),
+        stock: Number(formData.stock),
+
+        description: formData.description || '',
+        codigo_de_barras: formData.barcode || '',
+        // Incluir otros campos aquí...
+      };
+
       if (mode === 'create') {
-        // CREAR: La colección se llama 'productos'
+        // 🚨 PASO 2: INYECTAR EL DUEÑO (OWNER)
+        if (!pb.authStore.isValid || !pb.authStore.model?.id) {
+          throw new Error("No hay un usuario autenticado para la creación.");
+        }
+        payload.owner = pb.authStore.model.id;
+
+        console.log("Payload FINAL y CORRECTO:", payload);
+
         result = await pb.collection('productos').create(payload);
       } else {
-        // EDITAR/ACTUALIZAR: Se requiere el ID del producto
-        if (!product || !product.id) throw new Error('Producto inválido para editar');
+        if (!product?.id) throw new Error('Producto inválido');
         result = await pb.collection('productos').update(product.id, payload);
       }
 
-      // Si todo sale bien:
-      onSaved && onSaved(result); // Llama a la función de guardado (ej. para actualizar la tabla)
-      onClose && onClose();     // Cierra el modal
+      onSaved?.(result);
+      onClose?.();
     } catch (err) {
-      console.error('Error saving product:', err);
-      // Muestra un error más amigable si es posible
-      setError(err.data?.message || err?.message || 'Error desconocido al guardar el producto.');
+      // Mejorar el mensaje de error para mostrar campos fallidos
+      const errorData = err?.response?.data?.data;
+      let errorMsg = 'Error al guardar.';
+
+      if (errorData) {
+        const fieldsFailed = Object.keys(errorData).join(', ');
+        errorMsg = `Error de validación en los campos: ${fieldsFailed}.`;
+      }
+
+      setError(errorMsg);
+      console.error('Error completo del servidor:', err);
     } finally {
       setSaving(false);
     }
   };
 
-  return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+  // ... (resto del componente) ...
+  return createPortal(
+    <div className="modal-overlay" role="dialog" aria-modal="true">
       <div className="creation-form-mock">
         <div className="modal-header">
-          <h3 id="product-modal-title">{mode === 'create' ? 'Crear producto' : 'Editar producto'}</h3>
-          <button className="modal-close" aria-label="Cerrar" onClick={onClose}>✕</button>
+          <h3>{mode === 'create' ? 'Nuevo producto' : 'Editar producto'}</h3>
+          <button
+            className="modal-close"
+            onClick={onClose}
+            disabled={saving}
+          >
+            ✕
+          </button>
         </div>
 
-        {/* Mensaje de error visible si existe */}
         {error && <div className="alert alert-error">{error}</div>}
 
         <ProductForm
           initialValues={product || {}}
           onSubmit={handleSubmit}
-          // El label cambia dinámicamente según el estado de guardado
-          submitLabel={saving ? 'Guardando...' : mode === 'create' ? 'Crear' : 'Guardar'}
+          submitLabel={saving ? 'Guardando...' : 'Guardar'}
         />
-
-        <div className="form-actions">
-          {/* Este botón ya está dentro del formulario en ProductForm, pero lo dejo por si lo necesitas */}
-          {/* <button className="btn btn-secondary" onClick={onClose} type="button">Cerrar</button> */}
-        </div>
       </div>
-    </div>
+    </div>,
+    document.getElementById('modal-root')
   );
 }
+

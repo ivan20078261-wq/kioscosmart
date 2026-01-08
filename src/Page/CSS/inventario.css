@@ -1,0 +1,35 @@
+/* Importa los estilos base de productos para mantener la consistencia */
+@import url('./productos.css'); 
+
+/* ===============================
+   INVENTARIO ESPECÍFICO
+================================ */
+
+/* Resaltar filas con stock bajo */
+.low-stock {
+    background-color: #fef2f2; /* Fondo rojo muy claro */
+}
+
+.low-stock:hover td {
+    background-color: #fde4e4 !important; /* Resaltado más fuerte al pasar el mouse */
+}
+
+/* Badge de advertencia */
+.badge-warning {
+    background: #fde68a; /* Color amarillo */
+    color: #92400e;
+    margin-left: 0.5rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.stock-cell strong {
+    font-size: 1.1em;
+}
+
+/* Asegura que los botones de acción se vean bien */
+.actions-cell {
+    min-width: 120px; /* Asegura espacio para el botón 'Ajustar' */
+}
